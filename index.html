@@ -1,0 +1,1122 @@
+-Simplicity scales.
+
+Input -> Process -> Output with no side effects is the ideal.
+
+Isolated functions - no dependence on state of prog e.g. global variables
+
+Pure functions - the same input always gives the same output
+
+Limited side effect functions and reduction of errors
+
+-Style
+
+Smaller and cleaner code - syntactic efficiency 
+
+
+-Abstraction
+
+Coding 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Imperative - commanding
+Declarative
+
+
+Ecmas 5 for loop example
+
+for (let i = 0; i <10; i++)
+{
+ let A = i + 1;
+}
+
+
+
+-Pure function
+-provides the same result with the same paramaters
+- Will prevent errors happening by showing clear structure 
+
+
+function add(a, b){
+	return a + b;
+	}
+	
+	
+-Impure function - not predictable because of random math element 	
+	
+function add(a, b){
+	return Math.random;
+	}
+	
+	
+-State 
+	A collection of var with data in them
+	So changing a var will change the state, this can be DB items eg 
+	Pure functions should not change the state i.e. the data when the function is called (side-effects)
+	
+	
+	
+	
+//iterating for loop and using an action - action and iterator
+//in functional programming you can disconnect the two and make them more readable - we can use map
+before:
+
+let L =[1,2,3];
+
+for (let i =0: i <L.length; i++)
+	L[i] = L[i] + ;
+	
+	
+//here map works as an iterator 	
+
+let L =[1,2,3];
+L.map(function(item) [returun item + 1});
+
+// we can also use arrow functions in ecmas 6 and do away with function keyword
+
+let L =[1,2,3];
+L.map((item) => [returun item + 1});
+
+// we can even remove parenthesis and return keyword
+
+L.map(item => [tem + 1]
+
+// we can also declare the function with arrows before then call it in the map function
+
+let add = item => {item + 1};
+L.map(add);
+console.log(l); // [2, 3, 4]
+
+
+
+
+//if we use arrow functions with map we can access data without modifying the state of mutable data 
+//we dont mutate the data - it remains in scope 
+
+let add = item => {item + 1};
+L.map(add);
+console.log(L); // [1, 2, 3]
+
+
+//reducers - properties include accumulator 
+//reducer will produce value 
+let L =[1,2,3];
+let add = item => item + 1;
+let sum = (accumulator, item) => {return accumulator + item}
+let val = L.map(add).reduce(sum, 0);
+
+console.log(val); // result is 9
+
+
+//you can do a lot more in 3 lines of code than you can in traditional coding style
+//chains nicely
+//the loops become abstractions - not detailed and mroe natural 
+
+//there are lots of functions like map, sort 
+//using this style, you can avoid some OBO errors and bugs 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//here using imperative doce changes the value of our original array
+
+  const tabsBeforeIndex = this.tabs.splice(0, index); // Get the tabs before the tab
+  const tabsAfterIndex = this.tabs.splice(index + 1); // Get the tabs after the tab
+
+  this.tabs = tabsBeforeIndex.concat(tabsAfterIndex); // Join them together
+
+
+
+// If we use the ‘slice’ function instead of splice, the original array is not effected i.e. the content we are working on is not changed 
+//functional programming tries not to change things, especially in the objects in is working on
+//this helps prevent bugs as with the splice command
+..changing or altering is called a mutation and the outcome a side effect - pure functions produce none 
+
+
+//this function will effect fixedValue without changing the global var 
+let fixedValue = 4;
+
+function incrementer() {
+return fixedValue + 1;
+}
+
+//its good practice to declare dependencies explicitly - i.e. a present var is directly passed into argument
+//here we clearly declare the dependencies of a function
+
+
+let fixedValue = 4;
+
+function incrementer(num) {
+return num + 1;
+}
+
+
+//so we do not alter a variable or object - we can create new vars and return them in function
+//we also declare the function parameters so it uses those and not global vare
+
+// here our function creates a new arr and copies our original into there.
+//it then pushes the bookname onto the new array and returns it
+function add (arr, bookName) {
+let newArr = [...arr];
+  newArr.push(bookName);
+  return newArr;
+  
+}
+
+//here the function also creates a new array and copies the data.
+//if the bookname param is on the new list, it is removed from the new array with splice
+function remove (arr, bookName) {
+  let newArr = [...arr];
+  if (newArr.indexOf(bookName) >= 0) {
+   
+    newArr.splice(newArr.indexOf(bookName), 1); 
+    return newArr; 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//Functions are first class objects -s so they can be used like any other object - stored in objects or passed on as function arguments
+
+//Array functions can include Array.prototype.map()
+map - iterates the items in an array and returns a new array without mutating the original 
+three args 
+-element processd
+-index of element
+-arroy on which its called 
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const names = users.map(user => user.name);
+console.log(names);
+
+The console would display the value [ 'John', 'Amy', 'camperCat' ].
+
+
+before map:
+
+const ratings = [];
+for (let i = 0; i < watchList.length; i++) {
+  ratings.push({title: watchList[i]["Title"], rating: watchList[i]["imdbRating"]});
+}
+
+
+after map:
+
+let ratings = watchList.map(film => {
+  let mappedFilmData = {};
+
+  mappedFilmData["title"] = film["Title"]
+  mappedFilmData["rating"] = film["imdbRating"]
+  return mappedFilmData
+})
+
+
+
+//film becomes the callback function 
+//the map iterates through the array and makes a new one with the results ofd callback funtion without mutating original.
+//the function is ‘hidden’ (no keyword) in ES6
+//the alternative is :
+watchList.map(function film(film) {
+...
+})
+
+//new case sensitive keys “Title”
+
+//map willrun through and look at each element in the array
+
+//we could have used dot notaion too e.g. refinedMovieData.title 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Implement a map on a prototype 
+
+//map returns an array the sam length of original - it is a pure function, its outputs depend purely on inputes and it takes another function as argument
+//here we are defining a map function within the callback function
+
+
+// The global variable
+const s = [23, 65, 98, 5];
+
+Array.prototype.myMap = function(callback) {
+  const newArray = [];
+
+this.forEach (a => newArray.push(callback(a)))
+
+  return newArray;
+};
+
+const new_s = s.myMap(function(item) {
+  return item * 2;
+});
+
+console.log(new_s)
+
+
+//this could be also written with an iterating for loop
+
+// The global variable
+const s = [23, 65, 98, 5];
+
+Array.prototype.myMap = function(callback) {
+  const newArray = [];
+
+for (let i =0; i < this.length; i += 1){
+  newArray.push(callback(this[i]))
+}
+
+  return newArray;
+};
+
+const new_s = s.myMap(function(item) {
+  return item * 2;
+});
+
+console.log(new_s)
+
+//for each element, we call the callback function and add it to new array 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//Array.prototype.filter() will call a function on each element of the array and create a new array for the elements that are returned as true without mutating the original 
+- arg 1 : element processed 
+- arg 2 : index of ele
+- arg 3 : array the method was called on e.g. from FCC
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const usersUnder30 = users.filter(user => user.age < 30);
+console.log(usersUnder30); 
+The console would display the value [ { name: 'Amy', age: 20 }, { name: 'camperCat', age: 10 } ].
+
+
+//here we create a new array with map() and the values we need then we use filter () to filter this array for only items with imdbRating key value of over 8 
+
+const filteredList = watchList
+  .map(({ Title: title, imdbRating: rating }) => ({ title, rating }))
+  .filter(({ rating }) => rating > 8);
+  
+
+//here is an example using parsefloat
+var filteredList = watchList
+  .map(movie => {
+    return {
+      title: movie.Title,
+      rating: movie.imdbRating
+    };
+  })
+  .filter(movie => {
+    // return true it will keep the item
+    // return false it will reject the item
+    return parseFloat(movie.rating) >= 8.0;
+  });
+
+
+
+//and one where we create movie function ('movie' here could be replaced with a single letter')
+
+var filteredList = watchList
+  .map(function(movie) {
+    return { title: movie["Title"], rating: movie["imdbRating"] };
+  })
+  .filter(movie => movie.rating >= 8);
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//here we will attempt to write a Array.prototype.forEach(). method without using filter()
+//we create a new array
+//we then iterate through global var and if the function is true in that position (in this case remainder 1 when divided by 2 i.e. an odd number) we push it into the new Array 
+
+
+// The global variable
+const s = [23, 65, 98, 5];
+
+Array.prototype.myFilter = function(callback) {
+
+  const newArray = [];
+  for (let i =0; i < this.length; i += 1){
+if (callback(this[i]) === true) {  
+newArray.push((this[i]))}
+}
+
+  return newArray;
+};
+
+const new_s = s.myFilter(function(item) {
+  return item % 2 === 1;
+});
+
+console.log(new_s)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Slice will return copies of elements in an array and takes two args
+arg 1: index of slice begin
+arg 2:  index of slice end (non inclusive)
+default is start and end i.e. copy an array
+returns a new one - does not mutate original 
+
+const arr = ["Cat", "Dog", "Tiger", "Zebra"];
+const newArray = arr.slice(1, 3);
+newArray would have the value ["Dog", "Tiger"].
+
+
+
+//here is an example of a sliceArray function, the return statement of our new array and the global const it is working on and a deployment of the function with data and index params 
+
+function sliceArray(anim, beginSlice, endSlice) {
+
+  return anim.slice(beginSlice, endSlice);
+
+}
+
+const inputAnim = ["Cat", "Dog", "Tiger", "Zebra", "Ant"];
+sliceArray(inputAnim, 1, 3);
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+- Normally in JS you would use splice to remove items and keep rest of array using splice(startindex, number of items to remove(defaultgoes to end))
+- FCC example :
+
+
+const cities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
+cities.splice(3, 1);
+Here splice returns the string London and deletes it from the cities array. cities will have the value ["Chicago", "Delhi", "Islamabad", "Berlin"].
+
+
+- Using slice, we can also remove elements from an array instead of splice copying them
+//this code makes an array removing items from (3) onwards and mutates the original array
+function nonMutatingSplice(cities) {
+  // Only change code below this line
+  return cities.splice(3);
+
+  // Only change code above this line
+}
+
+const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
+console.log(nonMutatingSplice(inputCities));
+
+
+
+//here we will rewrite a function using slice instead of splice to return an array with only the first three items and not mutating the original array 
+
+function nonMutatingSplice(cities) {
+  // Only change code below this line
+  return cities.slice(0, 3);
+
+  // Only change code above this line
+}
+
+const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
+console.log(nonMutatingSplice(inputCities));
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//Concat method can be use to combine arrays 
+//method is called on one method and another argument is provided as thing to concat
+
+FCC e.g.
+[1, 2, 3].concat([4, 5, 6]);
+The returned array would be [1, 2, 3, 4, 5, 6].
+
+here we can write a nonMutatingCOncatFunction to attach new data to our original array:
+
+function nonMutatingConcat(original, attach) {
+
+return original.concat(attach);
+
+}
+
+const first = [1, 2, 3];
+const second = [4, 5];
+console.log(nonMutatingConcat(first, second));
+
+
+//concat can be used instead of push to add data to end of an array with a non mutating function:
+
+const arr = [1, 2, 3];
+arr.push([4, 5, 6]);
+arr would have a modified value of [1, 2, 3, [4, 5, 6]], which is not the functional programming way.
+
+//here we make a non mutating push-like function using concat:
+
+function nonMutatingPush(original, newItem) {
+
+return original.concat(newItem);
+}
+
+const first = [1, 2, 3];
+const second = [4, 5];
+console.log(nonMutatingPush(first, second));
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+-Array.prototype.reduce() is used for general forms of processing - others such as filter and map can be derived from it
+-reduce() iterates through the items in an array and returns a single value through a callback function which accepts 4 args
+1: accumulator
+2: current proccessed element
+3: [i] of that element
+4: array that reduce() is called on
+
+- an additional param is the init callue of the accumulator - if not used the first iteration is skipped and second iteration is passed first 
+-FCC e.g. 
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const sumOfAges = users.reduce((sum, user) => sum + user.age, 0);
+console.log(sumOfAges);
+The console would display the value 64.
+
+-FCC e.g. 2
+
+
+In another example, see how an object can be returned containing the names of the users as properties with their ages as values.
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const usersObj = users.reduce((obj, user) => {
+  obj[user.name] = user.age;
+  return obj;
+}, {});
+console.log(usersObj);
+The console would display the value { John: 34, Amy: 20, camperCat: 10 }.
+
+
+
+
+
+//here we will use reduce to get the average rating of Nolan films from an array 
+// we can use map() to create a new array and filter() 
+
+
+//first lets use filter to get the Nolan Movies in a new var 
+
+function getRating(watchList) {
+
+  
+  let nolanFilms = watchList.filter(function(film){
+    if (film.Director ==="Christopher Nolan"){
+      return film
+    }
+
+
+  });
+  
+  
+ 
+  return nolanFilms;
+}
+
+console.log(getRating(watchList));
+
+//we can now get the number of nolan films with a count var
+
+let NolanFilmCount = nolanFilms.length
+
+
+  return NolanFilmCount;
+
+//so we know our final figure will look like
+
+let averageRating = 'sum of ratings' / nolanFilmCount;
+
+
+
+//lets use reduce to get the sum of the ratings (currenIndex and arr args noted but not used) , 0 for starting value, parseFloat turns our string into a number 
+
+let nolanFilmRatingSum = nolanFilms.reduce(function(total, film, currentIndex, arr) {
+  total += parseFloat(film.imdbRating)
+  return total
+}, 0);
+
+
+//putting it all together 
+
+function getRating(watchList) {
+
+  
+  let nolanFilms = watchList.filter(function(film){
+    if (film.Director ==="Christopher Nolan"){
+      return film
+    }
+  });
+  
+let nolanFilmRatingSum = nolanFilms.reduce(function(total, film, currentIndex, arr) {
+  total += parseFloat(film.imdbRating)
+  return total
+}, 0);
+
+
+let nolanFilmCount = nolanFilms.length;
+
+let averageRating = nolanFilmRatingSum / nolanFilmCount;
+
+ return averageRating;
+
+}
+
+console.log(getRating(watchList));
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+Use Higher-Order Functions map, filter, or reduce to Solve a Complex Problem
+
+//here's the problem
+
+const squareList = arr => {
+  // Only change code below this line
+  
+  
+  
+  return arr;
+
+
+
+  // Only change code above this line
+};
+
+const squaredIntegers = squareList([-3, 4.8, 5, 3, -3.2]);
+console.log(squaredIntegers);
+
+
+//first lets create a result array within the squareList funct to hold the solution - advantage of this is we dont alter original array
+
+  let resultArr = [];
+  
+  
+  return resultArr;
+
+**I changed this for posIntArray* 
+
+//here we can create a new array with only positive ints using filter() and Number.isInteger(num) 
+
+  let posIntArray = arr.filter(function(num) {
+if (Number.isInteger(num) && num > 0){
+return num
+ }
+  });
+  
+   return posIntArray;
+
+
+//now we need to square the positive ints in our array
+// we can do that by adding a .map function onto our filter like so 
+  let posIntArray = arr.filter(function(num) {
+if (Number.isInteger(num) && num > 0){
+return num
+ }
+  }).map(function(num) {
+    return num * num;
+  })
+
+
+//so we are filtering for positive numbers with filter() then acting on that array using .map and returning that final value as
+   return posIntArray;
+
+
+// alltogether
+
+const squareList = arr => {
+
+  
+  let posIntArray = arr.filter(function(num) {
+if (Number.isInteger(num) && num > 0){
+return num
+ }
+  }).map(function(num) {
+    return num * num;
+  })
+  
+   return posIntArray;
+
+
+
+  };
+
+const squaredIntegers = squareList([-3, 4.8, 5, 3, -3.2]);
+console.log(squaredIntegers);
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+- We can sort() the elements of an array according to the fallback function 
+- //default is sorting by unicode sort value 
+
+
+- FCC e.g. 1  
+function ascendingOrder(arr) {
+  return arr.sort(function(a, b) {
+    return a - b;
+  });
+}
+
+ascendingOrder([1, 5, 2, 3, 4]);
+This would return the value [1, 2, 3, 4, 5].
+
+
+
+-FCC e.g. 2 
+
+function reverseAlpha(arr) {
+  return arr.sort(function(a, b) {
+    return a === b ? 0 : a < b ? 1 : -1;
+  });
+}
+
+reverseAlpha(['l', 'h', 'z', 'b', 's']);
+This would return the value ['z', 's', 'l', 'h', 'b'].
+
+
+
+//
+
+
+//challenge before 
+function alphabeticalOrder(arr) {
+  // Only change code below this line
+
+  return arr
+  // Only change code above this line
+}
+
+alphabeticalOrder(["a", "d", "c", "a", "z", "g"]);
+
+
+//after
+
+
+function alphabeticalOrder(arr) {
+
+  return arr.sort(function(a, b){
+ return a === b ? 0 : a > b ? 1 : -1;
+
+  });
+  
+}
+
+console.log(alphabeticalOrder(["a", "d", "c", "a", "z", "g"]));
+
+
+
+//FCC notes on sorting
+JavaScript's default sorting method is by string Unicode point value, which may return unexpected results. Therefore, it is encouraged to provide a callback function to specify how to sort the array items. When such a callback function, normally called compareFunction, is supplied, the array elements are sorted according to the return value of the compareFunction: If compareFunction(a,b) returns a value less than 0 for two elements a and b, then a will come before b. If compareFunction(a,b) returns a value greater than 0 for two elements a and b, then b will come before a. If compareFunction(a,b) returns a value equal to 0 for two elements a and b, then a and b will remain unchanged.
+
+
+
+//sort changes the order of elements in original array
+//to avoid we can concatenate an empty array to the one being sorted then run sort 
+
+
+
+
+
+//challenge
+const globalArray = [5, 6, 3, 2, 9];
+
+function nonMutatingSort(arr) {
+
+
+}
+
+nonMutatingSort(globalArray);
+
+
+//solution
+//first lets concat the empty arr to current arr with .concat
+
+return [].concat(arr)
+
+//now we sort this array using ascending order notation described before:
+.sort(function(a, b) {     return a - b; }
+
+
+//all together the function looks like:
+
+const globalArray = [5, 6, 3, 2, 9];
+
+function nonMutatingSort(arr) {
+
+return []
+.concat(arr)
+.sort(function (a, b){
+  return a-b;
+
+})
+
+}
+console.log(nonMutatingSort(globalArray));
+
+//note returning b-a would reverse order
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//split a string into an array with split()
+//takes an argument for the delimiter - the char used to break up the string or regex
+//e.g. if delimiter is a space you get an array of words, if it is an empty string you get each character from string 
+
+fcc e.g. 1: 
+
+
+Here are two examples that split one string by spaces, then another by digits using a regular expression:
+
+const str = "Hello World";
+const bySpace = str.split(" ");
+
+
+
+const otherString = "How9are7you2today";
+const byDigits = otherString.split(/\d/);
+bySpace would have the value ["Hello", "World"] and byDigits would have the value ["How", "are", "you", "today"].
+
+Since strings are immutable, the split method makes it easier to work with them.
+
+//challenge - split str into new array of words
+
+function splitify(str) {
+
+const splitString = str.split(/\W/);
+
+return splitString
+
+
+}
+
+console.log(splitify("Hello World,I-am code"));
+
+
+//here we have used regex (/\W/)  to match any non word character. it is a shorthand of splitting by  /[^A-Za-z0-9_]/
+//note we did not have to create splitString var we could have returned the process 
+return str.split(/\W/)
+
+-----------------------------------------------------------------------------------------------------------------------
+
+//join() is a bit like the opposite of split() and will join elements of the arry into a string
+//the arg is again a delimiter separator 
+
+-FCC e.g.
+
+const arr = ["Hello", "World"];
+const str = arr.join(" ");
+str would have a value of the string Hello World.
+
+//so we join the array values with a space between in a string
+
+//challenge
+
+function sentensify(str) {
+  // Only change code below this line
+
+
+  // Only change code above this line
+}
+
+sentensify("May-the-force-be-with-you");
+
+
+//step one - because the string is joined by non word characters we can split it into an array with 
+
+return str
+.split(/\W/);
+
+//this gives [ 'May', 'the', 'force', 'be', 'with', 'you' ]
+
+//next we want to join these with a space 
+
+.join(" ")
+
+
+//so all together...
+
+function sentensify(str) {
+return str
+.split(/\W/)
+.join(" ");
+
+}
+
+console.log(sentensify("May-the-force-be-with-you"));
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+-Convert strings to urlslugs 
+- we've used reduce, map and filter
+
+-here we will convert a string (title) into a hyphenated URL
+
+e.g. "About Us" -> about-us
+
+
+//challenge
+
+// Only change code below this line
+function urlSlug(title) {
+
+
+}
+// Only change code above this line
+
+//first lets create a var with our lower case title 
+
+var titleLowerCase = title.toLowerCase();
+
+
+//next let's split the titleLowerCase into an array using the space delimiter
+
+.split(" ")
+
+
+//now we can join our individual words array together using a hyphen
+
+.join("-")
+
+
+//this works for a lot of the solutions however not the test cases with spaces at the front or more than one space - we get too many hypens 
+
+//to get around this lets
+//add trim() to remove whitespace from either end of the string
+
+.trim()
+
+//change our split value to     .split(/\s+/)  to get rid of any white space
+
+
+//stackoverflow notes from https://stackoverflow.com/questions/28127794/difference-between-split-s-and-split/28128029
+
+he difference between .split(" ") and .split(/\s+/) is:
+The regex " "
+• Match the space character literally.
+
+The regex /\s+/
+◇ Match a single whitespacecharacter (tab, line feed, carriage return, vertical tab, form feed) between one and unlimmited times. (greedy)
+
+
+//final solution
+
+// Only change code below this line
+function urlSlug(title) {
+var titleLowerCase = title.toLowerCase();
+
+return titleLowerCase
+ .trim()
+ .split(/\s+/)
+ .join("-");
+
+
+}
+// Only change code above this line
+
+console.log(urlSlug((" Winter Is  Coming")))
+
+
+//note maybe it would look cleaner if we don't create the first var and use all the functions at once like so:
+
+
+function urlSlug(title) {
+
+return title
+.toLowerCase() 
+.trim()
+.split(/\s+/)
+.join("-");
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Use the Every method to check every element in array meets criteria 
+//this will check if every element in the array passes boolean value = true, if not it will return false 
+
+FCC e.g. 1:
+
+For example, the following code would check if every element in the numbers array is less than 10:
+
+const numbers = [1, 5, 8, 0, 10, 11];
+
+numbers.every(function(currentValue) {
+  return currentValue < 10;
+});
+The every method would return false here.
+
+
+//challenge
+Use the every method inside the checkPositive function to check if every element in arr is positive. The function should return a Boolean value.
+
+
+
+function checkPositive(arr) {
+  // Only change code below this line
+
+
+  // Only change code above this line
+}
+
+checkPositive([1, 2, 3, -4, 5]);
+
+
+//lets fill out the fucntion
+
+
+function checkPositive(arr) {
+
+return arr.every(function(value){
+  return (value > 0)
+
+});
+
+}
+
+checkPositive([1, 2, 3, -4, 5]);
+
+
+//in arrow function notation
+
+  return arr.every(val => val > 0); 
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Using some method to check if any elements in array meet criteria 
+//will return ture if at least one passes the boolean 
+
+FCC e.g 1 
+
+For example, the following code would check if any element in the numbers array is less than 10:
+
+const numbers = [10, 50, 8, 220, 110, 11];
+
+numbers.some(function(currentValue) {
+  return currentValue < 10;
+});
+The some method would return true.
+
+
+//solution in arrow notation 
+
+function checkPositive(arr) {
+  // Only change code below this line
+
+return arr.some(val => val > 0)
+
+  // Only change code above this line
+}
+
+checkPositive([1, 2, 3, -4, 5]); //returns true as at least 1 element is > 0
+
+
+
+// and with function keyword 
+
+return arr.some(function(value){
+  return (value > 0)
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Arity of function is the number of arguments it requires
+
+Currying a function converts a function of N arity into N functions of arity 1
+
+So it restructures a function to take one argument then give another function for the next arg
+
+FCC e.g. 1 
+
+
+function unCurried(x, y) {
+  return x + y;
+}
+
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+
+const curried = x => y => x + y
+
+curried(1)(2)
+
+
+curried(1)(2) would return 3.
+
+//useful if all args cant be supplied at once
+//each function call can be saved as var to hold function ref and take the next arg when available 
+
+curried function above e.g.
+
+const funcForY = curried(1);
+console.log(funcForY(2)); // 3
+
+//challenge
+
+Fill in the body of the add function so it uses currying to add parameters x, y, and z.
+
+function add(x) {
+  // Only change code below this line
+
+
+  // Only change code above this line
+}
+
+
+
+//solution 
+
+  return y => z => x + y + z;
+
+
+or 
+
+  return function(y) {
+    return function(z) {
+      return x + y + z;
+    };
+  };
+
+
+
+
+
+function add(x) {
+  // Only change code below this line
+  return y => z => x + y + z;
+
+
+  // Only change code above this line
+}
+console.log(add(10)(20)(30))
+
+
+will give us 60
+
+
+
+
+
+
+
+
+
